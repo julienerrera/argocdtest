@@ -1,16 +1,32 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ingress-test
+  name: corsegsm-argocd-ingress
+  namespace: corsegsm-argocd
   annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    # If you encounter a redirect loop or are getting a 307 response code 
+    # then you need to force the nginx ingress to connect to the backend using HTTPS.
+    #
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   rules:
-  - host: corsegsm.4dd783d3c4724849ae30.westeurope.aksapp.io
+  - host: corsegsm-argocd.40.117.114.146.xip.io
     http:
       paths:
       - backend:
-          serviceName: nginx
-          servicePort: 80
-        path: /
-
+          serviceName: back-office
+          servicePort: https
+        path: /back-office
+        pathType: Prefix
+      - backend:
+          serviceName: frontend
+          servicePort: https
+        path: /cjv
+        pathType: Prefix
+  tls:
+  - hosts:
+    - corsegsm-argocd.40.117.114.146.xip.io
