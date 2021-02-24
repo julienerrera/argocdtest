@@ -7,9 +7,9 @@ data:
     server {
     listen       80;
     location / {
-        alias   /usr/share/nginx/html/back-office/;
+        alias   /usr/share/nginx/html/
         rewrite ^(.*)\/\/([a-zA-Z0-9-.:]*)\/?(.*)$ $2/$3 permanent;
-        try_files $uri $uri/ /back-office/index.html;
+        try_files $uri $uri/ index.html;
     }
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {
