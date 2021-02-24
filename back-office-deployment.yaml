@@ -26,7 +26,7 @@ spec:
         io.kompose.service: back-office
     spec:
       containers:
-      - image: ns3147787.ip-51-91-7.eu:6555/back-office-frontend:2.0.1
+      - image: ns3147787.ip-51-91-7.eu:6555/back-office-frontend:2.0.7
         imagePullPolicy: ""
         name: back-office
         resources: {}
